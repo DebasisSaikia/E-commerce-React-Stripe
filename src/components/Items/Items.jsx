@@ -4,7 +4,7 @@ import Item from "./Item/Item";
 
 import useStyles from "./styles";
 
-const Items = ({ items }) => {
+const Items = ({ items, populateCart }) => {
   const classes = useStyles();
   return (
     <main className={classes.content}>
@@ -12,7 +12,7 @@ const Items = ({ items }) => {
       <Grid container justify="center" spacing={4}>
         {items.map((item) => (
           <Grid item key={item.id} xs={12} md={4} sm={6} lg={3}>
-            <Item item={item} />
+            <Item item={item} populateCart={populateCart} />
           </Grid>
         ))}
       </Grid>

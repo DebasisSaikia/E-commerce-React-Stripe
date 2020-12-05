@@ -16,14 +16,27 @@ function App() {
     setProducts(data);
   };
 
+  const fetchCart = async () => {
+    // retrieving cart item
+    setCart(await commerce.cart.retrieve());
+  };
+
+  // adding item to the cart
+  const handleCart = async (itemId, quantity) => {
+    const itemOne = await commerce.cart.add(itemId, quantity);
+    setCart(itemOne.cart);
+  };
+
   useEffect(() => {
     fetchItems();
+    fetchCart();
   }, []);
 
+  console.log(cart);
   return (
     <>
-      <Header />
-      <Items items={products} />
+      <Header cartItems={cart.total_items} />
+      <Items items={products} populateCart={handleCart} />
     </>
   );
 }

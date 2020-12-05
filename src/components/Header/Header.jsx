@@ -13,7 +13,7 @@ import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 //custom css
 import useStyles from "./styles";
 
-const Header = () => {
+const Header = ({ cartItems }) => {
   const classes = useStyles();
   return (
     <>
@@ -31,7 +31,7 @@ const Header = () => {
           <div className={classes.grow} />
           <div className={classes.button}>
             <IconButton aria-label="Cart item" color="inherit">
-              <Badge badgeContent={2} color="secondary">
+              <Badge badgeContent={cartItems} color="secondary">
                 <ShoppingBasketIcon />
               </Badge>
             </IconButton>
