@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Grid, Container, Button } from "@material-ui/core";
 import useStyles from "./styles";
+import BasketItem from "./BasketItem/BasketItem";
 
 const Basket = ({ cart }) => {
   const isEmpty = !cart.line_items?.length;
@@ -24,7 +25,7 @@ const Basket = ({ cart }) => {
         <Grid container spacing={3}>
           {cart.line_items.map((product) => (
             <Grid item xs={12} sm={4} key={product.id}>
-              <div>{product.name}</div>
+              <BasketItem product={product} />
             </Grid>
           ))}
         </Grid>
@@ -57,13 +58,11 @@ const Basket = ({ cart }) => {
     );
   };
 
-  
-
   return (
     <>
       <Container>
         <div className={classes.toolbar} />
-        <Typography variant="h3" className={classes.title}>
+        <Typography variant="h3" className={classes.title} gutterBottom>
           Your Shopping cart
         </Typography>
         {isEmpty ? <EmptyBasket /> : <ItemBasket />}
