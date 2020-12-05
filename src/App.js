@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-// import Header from "./components/Header/Header";
-// import Items from "./components/Items/Items";
+import { commerce } from "./data/commerce";
 
 import { Header, Items } from "./components";
 
 function App() {
+  const [products, setProducts] = useState([]);
+  // cart functionality
+  const [cart, setCart] = useState({});
+
+  // rendering data
+  const fetchItems = async () => {
+    const { data } = await commerce.products.list();
+
+    setProducts(data);
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
   return (
     <>
       <Header />
-      <Items />
+      <Items items={products} />
     </>
   );
 }
