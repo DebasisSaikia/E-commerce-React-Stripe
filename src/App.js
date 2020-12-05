@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { commerce } from "./data/commerce";
 
-import { Header, Items } from "./components";
+import { Basket, Header, Items } from "./components";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -36,7 +36,8 @@ function App() {
   return (
     <>
       <Header cartItems={cart.total_items} />
-      <Items items={products} populateCart={handleCart} />
+      {/* <Items items={products} populateCart={handleCart} /> */}
+      <Basket cart={cart} />
     </>
   );
 }
