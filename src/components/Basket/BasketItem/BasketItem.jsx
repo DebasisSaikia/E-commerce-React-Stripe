@@ -11,7 +11,7 @@ import {
 // custom css
 import useStyles from "./styles";
 
-const BasketItem = ({ product }) => {
+const BasketItem = ({ product, onUpdateCart, onRemoveCart }) => {
   const classes = useStyles();
   return (
     <>
@@ -29,15 +29,28 @@ const BasketItem = ({ product }) => {
         </CardContent>
         <CardActions className={classes.cartActions}>
           <div className={classes.buttons}>
-            <Button type="button" size="small">
+            <Button
+              type="button"
+              size="small"
+              onClick={() => onUpdateCart(product.id, product.quantity - 1)}
+            >
               -
             </Button>
             <Typography>{product.quantity}</Typography>
-            <Button type="button" size="small">
+            <Button
+              type="button"
+              size="small"
+              onClick={() => onUpdateCart(product.id, product.quantity + 1)}
+            >
               +
             </Button>
           </div>
-          <Button variant="contained" type="button" color="secondary">
+          <Button
+            variant="contained"
+            type="button"
+            color="secondary"
+            onClick={() => onRemoveCart(product.id)}
+          >
             Remove
           </Button>
         </CardActions>

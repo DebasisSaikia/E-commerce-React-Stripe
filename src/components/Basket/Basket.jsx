@@ -4,7 +4,7 @@ import useStyles from "./styles";
 import BasketItem from "./BasketItem/BasketItem";
 import { Link } from "react-router-dom";
 
-const Basket = ({ cart }) => {
+const Basket = ({ cart, emptyCart, removeCart, handleCartQty }) => {
   const isEmpty = !cart.line_items?.length;
 
   //   custom styles
@@ -29,7 +29,11 @@ const Basket = ({ cart }) => {
         <Grid container spacing={3}>
           {cart.line_items.map((product) => (
             <Grid item xs={12} sm={4} key={product.id}>
-              <BasketItem product={product} />
+              <BasketItem
+                product={product}
+                onUpdateCart={handleCartQty}
+                onRemoveCart={removeCart}
+              />
             </Grid>
           ))}
         </Grid>
@@ -44,6 +48,7 @@ const Basket = ({ cart }) => {
               type="button"
               variant="contained"
               color="secondary"
+              onClick={emptyCart}
             >
               Empty Basket
             </Button>
