@@ -23,6 +23,7 @@ const Checkout = ({ cart }) => {
 
   const [activeStep, setActiveStep] = useState(0);
   const [checkoutToken, setCheckoutToken] = useState(null);
+  const [shippingData, setShippingData] = useState({});
 
   // creating checkout token
   useEffect(() => {
@@ -31,13 +32,25 @@ const Checkout = ({ cart }) => {
         const token = await commerce.checkout.generateToken(cart.id, {
           type: "cart",
         });
-
-        console.log(token);
         setCheckoutToken(token);
       } catch (err) {}
     };
     generateToken();
   }, [cart]);
+
+  // moving active steps further:
+  const nextStep = () => {
+    setActiveStep((previousStep) => previousStep + 1);
+  };
+  const backStep = () => {
+    setActiveStep((previousStep) => previousStep - 1);
+  };
+
+  // implement next button after checkout form
+  const next = (data) => {
+    setShippingData(data);
+    nextStep();
+  };
 
   //   confirmation
   const Confirmation = () => {
@@ -47,9 +60,9 @@ const Checkout = ({ cart }) => {
   //   active steps checker
   const Form = () =>
     activeStep === 0 ? (
-      <DetailsForm checkoutToken={checkoutToken} />
+      <DetailsForm checkoutToken={checkoutToken} next={next} />
     ) : (
-      <PaymentForm />
+      <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} backStep={backStep} />
     );
 
   return (

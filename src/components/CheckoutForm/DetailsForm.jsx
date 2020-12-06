@@ -11,8 +11,9 @@ import { useForm, FormProvider } from "react-hook-form";
 import CustomInput from "./CustomTextField";
 // api importing
 import { commerce } from "../../data/commerce";
+import { Link } from "react-router-dom";
 
-const DetailsForm = ({ checkoutToken }) => {
+const DetailsForm = ({ checkoutToken, next }) => {
   const methods = useForm();
 
   // states for select input
@@ -38,7 +39,7 @@ const DetailsForm = ({ checkoutToken }) => {
   );
 
   // looping options to map
-  const options = setShippingOptions.map((sOpt) => ({
+  const options = shippingOptions.map((sOpt) => ({
     id: sOpt.id,
     label: `${sOpt.description}-(${sOpt.price.formatted_with_symbol})`,
   }));
@@ -94,7 +95,16 @@ const DetailsForm = ({ checkoutToken }) => {
         Shipping Address
       </Typography>
       <FormProvider {...methods}>
-        <form onSubmit="">
+        <form
+          onSubmit={methods.handleSubmit((data) =>
+            next({
+              ...data,
+              shippingCountry,
+              shippingSubdivision,
+              shippingOption,
+            })
+          )}
+        >
           <Grid container spacing={3}>
             <CustomInput name="firstName" label="First Name" />
             <CustomInput name="lastName" label="Last Name" />
@@ -145,6 +155,15 @@ const DetailsForm = ({ checkoutToken }) => {
               </Select>
             </Grid>
           </Grid>
+          <br />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Button component={Link} to="/cart" variant="outlined">
+              Back to Cart
+            </Button>
+            <Button type="submit" variant="contained" color="primary">
+              Next
+            </Button>
+          </div>
         </form>
       </FormProvider>
     </>
