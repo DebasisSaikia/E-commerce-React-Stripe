@@ -2,6 +2,7 @@ import React from "react";
 import { Typography, Grid, Container, Button } from "@material-ui/core";
 import useStyles from "./styles";
 import BasketItem from "./BasketItem/BasketItem";
+import { Link } from "react-router-dom";
 
 const Basket = ({ cart }) => {
   const isEmpty = !cart.line_items?.length;
@@ -14,6 +15,9 @@ const Basket = ({ cart }) => {
     return (
       <Typography variant="subtitle1">
         Your Shopping cart is Empty. Add Some item to buy.
+        <Link to="/" className={classes.link}>
+          Continue shopping
+        </Link>
       </Typography>
     );
   };

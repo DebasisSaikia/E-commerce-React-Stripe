@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { commerce } from "./data/commerce";
-
 import { Basket, Header, Items } from "./components";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -35,9 +35,17 @@ function App() {
   console.log(cart);
   return (
     <>
-      <Header cartItems={cart.total_items} />
-      {/* <Items items={products} populateCart={handleCart} /> */}
-      <Basket cart={cart} />
+      <Router>
+        <Header cartItems={cart.total_items} />
+        <Switch>
+          <Route exact path="/">
+            <Items items={products} populateCart={handleCart} />
+          </Route>
+          <Route exact path="/cart">
+            <Basket cart={cart} />
+          </Route>
+        </Switch>
+      </Router>
     </>
   );
 }
