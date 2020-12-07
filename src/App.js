@@ -9,6 +9,12 @@ function App() {
   // cart functionality
   const [cart, setCart] = useState({});
 
+  // final order state
+  const [order, setOrder] = useState({});
+
+  // error handling
+  const [errorMessage, setErrorMessage] = useState("");
+
   // rendering data
   const fetchItems = async () => {
     const { data } = await commerce.products.list();
@@ -45,6 +51,26 @@ function App() {
     setCart(response.cart);
   };
 
+  // refresh and empty the cart once order is done
+  const refreshCart = async () => {
+    const newCart = await commerce.cart.refresh();
+    setCart(newCart);
+  };
+
+  // check final checkout with stripe
+  const handleCheckout = async (checkoutId, newOrder) => {
+    try {
+      const incomingOrder = await commerce.checkout.capture(
+        checkoutId,
+        newOrder
+      );
+      setOrder(incomingOrder);
+      refreshCart();
+    } catch (error) {
+      setErrorMessage(error.data.error.message);
+    }
+  };
+
   useEffect(() => {
     fetchItems();
     fetchCart();
@@ -68,7 +94,12 @@ function App() {
             />
           </Route>
           <Route exact path="/checkout">
-            <Checkout cart={cart} />
+            <Checkout
+              cart={cart}
+              order={order}
+              onCheckout={handleCheckout}
+              error={errorMessage}
+            />
           </Route>
         </Switch>
       </Router>

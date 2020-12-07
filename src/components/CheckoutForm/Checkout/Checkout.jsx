@@ -18,7 +18,7 @@ import { commerce } from "../../../data/commerce";
 // form steps
 const steps = ["Shipping Address", "Payment Details"];
 
-const Checkout = ({ cart }) => {
+const Checkout = ({ cart, order, onCheckout, error }) => {
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = useState(0);
@@ -54,7 +54,14 @@ const Checkout = ({ cart }) => {
 
   //   confirmation
   const Confirmation = () => {
-    return <div>Confirmation</div>;
+    return (
+      <>
+        <div>
+          <Typography variant="h5" >Thank you for your purchase firstName,lastname</Typography>
+          <Divider className={classes.divide} />
+        </div>
+      </>
+    );
   };
 
   //   active steps checker
@@ -62,7 +69,13 @@ const Checkout = ({ cart }) => {
     activeStep === 0 ? (
       <DetailsForm checkoutToken={checkoutToken} next={next} />
     ) : (
-      <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} backStep={backStep} />
+      <PaymentForm
+        shippingData={shippingData}
+        checkoutToken={checkoutToken}
+        nextStep={nextStep}
+        backStep={backStep}
+        onCheckout={onCheckout}
+      />
     );
 
   return (
